@@ -1,4 +1,5 @@
 # ASP.NET
+
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
@@ -37,3 +38,13 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Visual Studio Enterprise (cefd4b70-e3f5-432d-b5f7-4010501daeb6)'
+    azureContainerRegistry: '{"loginServer":"interviewsamplecr1.azurecr.io", "id" : "/subscriptions/cefd4b70-e3f5-432d-b5f7-4010501daeb6/resourceGroups/Docker/providers/Microsoft.ContainerRegistry/registries/interviewsampleCR1"}'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'rm --all'
+    nopIfNoDockerComposeFile: true
